@@ -1,3 +1,4 @@
+//碰撞小紅點
 module 	LAB_08(clk, row, red, green, column, sel, reset);
 
 input 		reset, clk;  // pin C16,W16(10MHz)   		
