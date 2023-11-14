@@ -12,12 +12,12 @@ assign led_com = 1'b1;
 assign count_out = (seg7_sel == 3'b101 ) ? count0 : ((seg7_sel == 3'b100) ? count1 : count2);  //MUX
 freq_div #(21) (clk, reset, clk_count);  //slow
 freq_div #(17) (clk, reset, clk_sel);    //high
-count000_777 (clk_count, reset, enable, count2, count1, count0, carry);  //count0:個位數 count1:十位數 count2:百位數
+count123_000 (clk_count, reset, enable, count2, count1, count0, carry);  //count0:個位數 count1:十位數 count2:百位數
 bcd_to_seg7  (count_out, seg7_out);
 seg7_select #(3) (clk_sel, reset, seg7_sel);
 endmodule
 
-module count000_777(clk, reset, enable, count2_out, count1_out, count0_out, carry);
+module count123_000(clk, reset, enable, count2_out, count1_out, count0_out, carry);
 input clk, reset, enable;
 output [3:0]count2_out, count1_out, count0_out;
 reg [3:0]count2_out, count1_out, count0_out;
@@ -51,7 +51,6 @@ else if(enable == 1'b1) begin
  else
   count0_out = count0_out - 4'b0001;
  end
- 
  
 end
 endmodule
