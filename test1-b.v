@@ -1,9 +1,9 @@
 //設計一個倒數30分鍾(含秒)之倒數時間顯示器。
 module test(clk, reset, enable, seg7_sel, seg7_out, dpt, carry, led_com);
-input clk, reset, enable;
-output[2:0]seg7_sel;
-output[6:0] seg7_out;
-output dpt, carry, led_com;
+input clk, reset, enable; //pin W16, C16, AA15
+output[2:0]seg7_sel;//pin AB10, AB11, AA12
+output[6:0] seg7_out; // pin AB7, AA7, AB6, AB5, AA9, Y9, AB8
+output dpt, carry, led_com; //pinAA8, N20, E2
 wire clk_count, clk_sel;
 wire[3:0] count_out, count5, count4, count3, count2, count1, count0;
 assign led_com= 1'b1;

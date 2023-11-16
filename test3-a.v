@@ -1,5 +1,5 @@
-//在七段顯示器上顯示000~321的倒數計數器(可暫停)。
-module test3_2(clk, reset, seg7_sel, enable, seg7_out, dpt_out, carry, led_com);
+//在七段顯示器上顯示000~321的上數計數器(可暫停)。
+module test3(clk, reset, seg7_sel, enable, seg7_out, dpt_out, carry, led_com);
 input clk, reset, enable;  //pin W16, C16, AA15
 output [2:0]seg7_sel;     //pin AB10, AB11, AA12 
 output [6:0]seg7_out;      //pin AB7, AA7, AB6, AB5, AA9, Y9, AB8 
@@ -30,22 +30,18 @@ count1_out = 4'b0000;  //000
 count0_out = 4'b0000;  //000
 end
 else if(enable == 1'b1) begin
- if (count2_out == 4'b0011 && count1_out == 4'b0010 && count0_out == 4'b0001)begin  
+ if (count2_out == 4'b0011 && count1_out == 4'b0010 && count0_out == 4'b0001)begin  //321
  count2_out = 4'b0000;  //000
  count1_out = 4'b0000;  //000
  count0_out = 4'b0000;  //000
  end
- if(count0_out == 4'b1001) begin
+ if(count0_out == 4'b1001) begin //x9
   count0_out = 4'b0000;
   count1_out = count1_out + 4'b0001;
   end 
- else if(count1_out == 4'b1001) begin
+ else if(count0_out == 4'b1001 & count1_out == 4'b1001) begin //x99
   count0_out = 4'b0000;
   count1_out = 4'b0000;
-  count2_out = count2_out + 4'b0001;
-  end
- else if(count1_out == 4'b0000) begin
-  count1_out = 4'b1001;
   count2_out = count2_out + 4'b0001;
   end
  else

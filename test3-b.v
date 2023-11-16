@@ -3,7 +3,7 @@ module test2(clk, reset, seg7_sel, enable, seg7_out, dpt_out, carry, led_com);
 input clk, reset, enable;  //pin W16, C16, AA15
 output [2:0]seg7_sel;     //pin AB10, AB11, AA12 
 output [6:0]seg7_out;      //pin AB7, AA7, AB6, AB5, AA9, Y9, AB8 
-output  dpt_out, led_com, carry;  //pinAA8, E2, N20
+output  dpt_out, led_com, carry;   //pinAA8, E2, N20
 
 wire clk_count, clk_sel;
 wire [3:0]count_out, count2, count1, count0;

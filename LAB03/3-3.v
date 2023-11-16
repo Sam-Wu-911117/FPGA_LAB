@@ -1,3 +1,4 @@
+//24小時制時鐘
 module LAB_03(clk, reset, enable, seg7_sel, seg7_out, dpt, carry, led_com);
 input 	clk, reset, enable;
 output 	[2:0]seg7_sel;

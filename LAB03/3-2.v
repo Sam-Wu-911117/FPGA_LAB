@@ -1,3 +1,4 @@
+//00-23 上數計數器
 module LAB_03(clk, reset, seg7_sel, enable, seg7_out, dpt_out, carry, led_com);
 input clk, reset, enable; //pin 55,124,47
 output[2:0] seg7_sel; //pin 37,36,33
