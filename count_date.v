@@ -34,7 +34,7 @@ module year(clk, reset, enable, count1, count0);
 	always@ (posedge clk or posedge reset)begin
 		if(reset) begin
 			count1 = 4'b0010;
-			count0 = 4'b0100;
+			count0 = 4'b0001;
 		end
 		else if(enable == 1'b1) begin
 			if(count1 == 4'b0100 && count0 == 4'b1000)begin //2048
