@@ -1,3 +1,4 @@
+//在LCD矩陣由右往左移動依序顯示你的學號，可選擇顯示之顏色為黃綠紅。
 module PR2(clk, rst, row, sel, column_green, column_red);
 input clk, rst; //pin W16,C16
 input[1:0] sel;	//選擇LDE亮紅燈OR綠燈 //pin AA15, AA14 //最左邊兩個按鈕
