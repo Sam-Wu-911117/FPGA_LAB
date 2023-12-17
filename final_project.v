@@ -28,6 +28,7 @@ freq_div#(14) 	M6 (clk, reset, ck);
 
 map		M7 (addr,green);
 idx		M8 (ck, reset, idx, row);
+
 mix1		M9 (ver1, hor1, row, red1);
 mix2		M99(ver2, hor2, row, red2);
 collision 	M10 (ck, reset, red, green, coll);
@@ -50,16 +51,16 @@ divider = divider+ 1'b1;
 end
 endmodule
 
-module 	mix1(ver, hor, row, red);
-input		[7:0]ver, hor, row;
-output 	[7:0]red;
-assign 	red= (ver==row)?hor:8'b0;
+module 	mix1(ver, hor, row, red1);
+input		[7:4]ver, hor, row;
+output 	[7:4]red1;
+assign 	red1= (ver==row)?hor:8'b0;
 endmodule
 
-module 	mix2(ver, hor, row, red);
-input		[7:0]ver, hor, row;
-output 	[7:0]red;
-assign 	red= (ver==row)?hor:8'b0;
+module 	mix2(ver, hor, row, red2);
+input		[3:0]ver, hor, row;
+output 	[3:0]red2;
+assign 	red2= (ver==row)?hor:8'b0;
 endmodule
 
 module 	idx(clk, reset, idx, row);
@@ -95,9 +96,9 @@ case(addr)
 	4'd4  	:data= 8'b0111_0101;
 	4'd5  	:data= 8'b0110_0001;
 	4'd6  	:data= 8'b0110_1111;
-	4'd7  	:data= 8'b0000_1111;
+	4'd7  	:data= 8'b0100_1000;
 	*/
-	
+	 
 	4'd0  	:data= 8'b0000_0000;           //請自行設計地圖
 	4'd1  	:data= 8'b0000_0000;
 	4'd2  	:data= 8'b0000_0000;
@@ -127,49 +128,45 @@ input 		reset, clk, unable;
 input 		[3:0]keycode;
 output 	[7:0]ver, hor;
 wire		left, right, up, down;
-
 assign 	left  =  ~keycode[3]&  ~keycode[2]& ~keycode[1]&  keycode[0] ;
 assign 	right = ~keycode[3]&  ~keycode[2]& keycode[1]&  ~keycode[0] ;
-
 //assign 	up    =  keycode[1]& ~keycode[2];
 //assign	   down  =  keycode[3];
-
 shift1 S1(left, right, reset, unable, hor, clk); //left & right
 shift2 S2(up, down, reset, unable, ver, clk); //up & down
-
 endmodule
+
+
 
 module	move2(reset, unable, keycode, ver, hor, clk);
 input 		reset, clk, unable;
 input 		[3:0]keycode;
 output 	[7:0]ver, hor;
 wire		left, right, up, down;
-
 assign 	left  = keycode[3]&  ~keycode[2]& ~keycode[1]&  ~keycode[0] ;
 assign 	right = keycode[3]&  ~keycode[2]& ~keycode[1]&   keycode[0] ;
-
 //assign 	up    =  keycode[1]& ~keycode[2];
 //assign		down  =  keycode[3];
-
 shift1 S1(left, right, reset, unable, hor, clk); //left & right
 shift2 S2(up, down, reset, unable, ver, clk); //up & down
-
 endmodule
+
+
 
 
 module 	shift1(left, right, reset, unable, out, clk);
 input 		left, right, reset, clk, unable;
-output reg	[7:0]out;
+output reg	[7:4]out;
 always@(posedge clk or posedge reset)
 begin
 	if(reset)
-		out<=8'b0000_0001;//col_control_bit
+		out<=8'b0001;//col_control_bit
 	else if(unable) 		//碰撞狀態
- 		out<=8'b0000_0000;
+ 		out<=8'b0000;
  	else if(left)
-		out<={out[6:0],out[7]};
+		out<={out[6:4],out[7]};
 	else if(right)
-		out<={out[0],out[7:1]};
+		out<={out[4],out[7:5]};
  	else
   		out<=out;
 end
@@ -177,21 +174,24 @@ endmodule
 
 module 	shift2(left, right, reset, unable, out, clk);
 input 		left, right, reset, clk, unable;
-output reg	[7:0]out;
+output reg	[3:0]out;
 always@(posedge clk or posedge reset)
 begin
 	if(reset)
-		out<=8'b0000_0001;//row_control_bit
+		out<=8'b0001;//row_control_bit
 	else if(unable) 		//碰撞狀態
- 		out<=8'b0000_0000;
+ 		out<=8'b0000;
  	else if(left)
-		out<={out[6:0],out[7]};
+		out<={out[2:0],out[3]};
 	else if(right)
-		out<={out[0],out[7:1]};
+		out<={out[0],out[3:1]};
  	else
   		out<=out;
 end
 endmodule
+
+
+
 
 module  	collision(clk, reset, red, green, coll);
 input		clk, reset;
