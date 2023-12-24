@@ -607,8 +607,6 @@ end
 endmodule
 
 
-
-
 ///
 module bcd_to_seg7 (bcd_in, seg7);
 input		[3:0]bcd_in;
